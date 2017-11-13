@@ -1,0 +1,1 @@
+import * as Vue from './vue.js';
