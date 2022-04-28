@@ -1,0 +1,30 @@
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+    background-color: bisque;
+}
+
+.container{
+    display: flex;
+    gap: 5%;
+
+}
+
+.imgs{
+    height: 350px;
+    width: 400px;
+    border: 1px solid black;
+    border-radius: 12px;
+    text-align: center;
+    
+}
+
+.imgs img{
+    padding: 10px;
+    height: 300px;
+    width: 400px;
+    object-fit: cover;
+}

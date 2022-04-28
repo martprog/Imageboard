@@ -2,9 +2,29 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Imageboard</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <main>
+        <h1>Imageboard</h3>
+        <div class="container">
+            <div class="imgs"  v-for="item in images"><img :src="item.url">{{item.title}}</div>
+        </div>    
+    </main>
+
+<!-- 
+    <div id="main">
+        <h3>Let us try vue stuff: {{50*23}}</h3>
+        <h3>Let us try vue stuff: {{cohort.toUpperCase()}}</h3>
+        <h3 v-if="show">Let us try vue stuff: {{50*23}}</h3>
+        <h3 v-else="show">otraaaa</h3>
+        <ul>
+            <li v-for="item in sweets" v-bind:key="item.id" @click="methodDos(item.name)">{{item.name}} || {{item.otra}}</li>
+        </ul>
+        <h2 v-on:click="myFirstMethod">click me</h2>
+
+    </div> -->
     <script src="/js/app.js" type="module" crossorigin="use-credentials"></script>
 </body>
 </html>
