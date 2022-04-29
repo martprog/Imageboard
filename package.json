@@ -15,7 +15,7 @@
     "dependencies": {
         "aws-sdk": "^2.476.0",
         "express": "^4.14.0",
-        "multer": "^1.2.0",
+        "multer": "^1.4.4",
         "spiced-pg": "^1.0.4",
         "uid-safe": "^2.1.4"
     },

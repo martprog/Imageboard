@@ -4,27 +4,22 @@
     <meta charset="utf-8">
     <title>Imageboard</title>
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Martel:wght@200;300&family=Roboto+Slab:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
     <main>
+        <form @submit="handleSubmit" method="post" action="/image" enctype="multipart/form-data">
+            <input v-model="title" name="title" placeholder="title" />
+            <input v-model="username" name="username" placeholder="username" />
+            <input v-model="description" name="description" placeholder="description" />
+            <input @change="handleFileChange" name="image" type="file" accept="image/*" />
+            <button>Upload</button>
+        </form>
         <h1>Imageboard</h3>
         <div class="container">
             <div class="imgs"  v-for="item in images"><img :src="item.url">{{item.title}}</div>
         </div>    
     </main>
-
-<!-- 
-    <div id="main">
-        <h3>Let us try vue stuff: {{50*23}}</h3>
-        <h3>Let us try vue stuff: {{cohort.toUpperCase()}}</h3>
-        <h3 v-if="show">Let us try vue stuff: {{50*23}}</h3>
-        <h3 v-else="show">otraaaa</h3>
-        <ul>
-            <li v-for="item in sweets" v-bind:key="item.id" @click="methodDos(item.name)">{{item.name}} || {{item.otra}}</li>
-        </ul>
-        <h2 v-on:click="myFirstMethod">click me</h2>
-
-    </div> -->
     <script src="/js/app.js" type="module" crossorigin="use-credentials"></script>
 </body>
 </html>

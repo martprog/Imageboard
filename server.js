@@ -1,20 +1,51 @@
-const  { selectData } = require("./sql/db")
+const { selectData, uploadImg } = require("./sql/db");
 const express = require("express");
 const app = express();
-// const sweets = [
-//     { id: 1, name: "juan", otra: "rel" },
-//     { id: 2, name: "pam", otra: "tel" },
-//     { id: 3, name: "an", otra: "cel" },
-// ];
+const multer = require("multer");
+const path = require("path");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
 
-console.log(selectData);
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, path.join(__dirname, "uploads")); //null for error. REMEMBER: Node Land!
+    },
+    filename: (req, file, callback) => {
+        uidSafe(24).then((randomId) => {
+            callback(null, `${randomId}${path.extname(file.originalname)}`);
+        });
+    },
+});
+const uploader = multer({
+    storage: storage,
+    // dest: "uploads",
+});
 
+// app.use(express.urlencoded({extended: false}));
 app.use(express.static("./public"));
 
 app.use(express.json());
 
+app.post("/images.json", uploader.single("image"), s3.upload, (req, res) => {
+    const { title, description, username } = req.body;
+    const { filename } = req.file;
+    let url = `https://s3.amazonaws.com/spicedling/${filename}`;
+
+    if (req.file) {
+        uploadImg(url, username, title, description)
+            .then((results) => {
+                res.json(results);
+            })
+            .catch((e) => console.log("error uploading: ", e));
+    } else {
+        res.json({
+            succes: false,
+        });
+    }
+});
+
 app.get("/images.json", (req, res) => {
-    selectData().then((results)=>{
+    selectData().then((results) => {
         res.json(results);
     });
 });
