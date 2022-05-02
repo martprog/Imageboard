@@ -29,4 +29,15 @@ const uploadImg = (url, username, title, description) => {
     });
 };
 
-module.exports = { selectData, uploadImg };
+const getImageById = (image_id) => {
+    const query = `
+            SELECT * FROM images
+            WHERE id=$1
+        `;
+
+    return db.query(query, [image_id]).then((results) => {
+        return results.rows[0];
+    });
+};
+
+module.exports = { selectData, uploadImg, getImageById };

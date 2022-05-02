@@ -9,15 +9,34 @@
 <body>
     <main>
         <form @submit="handleSubmit" method="post" action="/image" enctype="multipart/form-data">
-            <input v-model="title" name="title" placeholder="title" />
-            <input v-model="username" name="username" placeholder="username" />
-            <input v-model="description" name="description" placeholder="description" />
-            <input @change="handleFileChange" name="image" type="file" accept="image/*" />
-            <button>Upload</button>
+            <div class="mini-container">
+                <div class="input-group">
+                    <input class="effect-1" v-model="title" name="title" placeholder="title" />
+                    <span class="underline"></span>
+                </div>
+            <!-- <input-field placeholder="title" @change="onTitleChange"></input-field> -->
+
+                <div class="input-group">
+                    <input class="effect-1" v-model="username" name="username" placeholder="username" />
+                    <span class="underline"></span>
+                </div>
+                <div class="input-group">
+                    <input class="effect-1" v-model="description" name="description" placeholder="description" />
+                    <span class="underline"></span>
+                </div>
+                <input id="file-choose" @change="handleFileChange" name="image" type="file" accept="image/*" />
+                <button>Upload</button>
+            </div>
+
         </form>
         <h1>Imageboard</h3>
         <div class="container">
-            <div class="imgs"  v-for="item in images"><img :src="item.url">{{item.title}}</div>
+            <div @click="selectedPic(item.id)" class="imgs"  v-for="item in images">
+                <img :src="item.url">{{item.title}}
+            </div>
+            <div class="modal">
+                <user-detail class="modal-image" v-if="selectedUser"  @close="onClose" :id="selectedUser"></user-detail>
+            </div>
         </div>    
     </main>
     <script src="/js/app.js" type="module" crossorigin="use-credentials"></script>

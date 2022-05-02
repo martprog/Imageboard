@@ -3,28 +3,95 @@
 }
 
 body {
-    background-color: rgb(237, 231, 231);
+    background-color: rgba(0, 0, 0, 0.07);
     font-family: "Martel", serif;
-}
-
-form{
-    display: flex;
-    width: 50%;
-    flex-wrap: wrap;
 }
 
 
 .container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: masonry;
+    
     /* grid-template-rows: 1fr 2fr 1fr; */
     gap: 30px 20px;
     /* display: flex;
     gap: 5%; */
 }
 
+.mini-container{
+    display: flex;
+    width: 25%;
+    flex-direction: column;
+    background-color: white;
+    transform: translateX(280%);
+    opacity: 0.7;
+    padding: 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+
+h1{
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+}
+
+button{
+    padding: 8px;
+    border-radius: 8px;
+    background-color: red;
+    color: white;
+    font-size: 22px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+input{
+    border: none;
+    outline: none;
+    /* border-bottom: 2px solid red; */
+    margin: 8px;
+    transition: transform 250ms linear;  
+    position: relative;
+    width: 100%;
+}
+
+.input-group {
+  position: relative;
+}
+
+.effect-1 {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.effect-1 + span {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  /* width: 0%; */
+  height: 2px;
+  background-color: red;
+  transition: 0.5s ;
+  transform: scaleX(0);
+}
+
+.effect-1:focus + span {
+  width: 100%;
+  transform: scaleX(1);
+}
+
+/* input:focus{
+    outline: none;
+    border-bottom: 2px solid red;    
+} */
+
+
+#file-choose{
+    border:  none
+}
+
 .imgs {
+    position: relative;
     height: 350px;
     width: 400px;
     /* border: 0.5px solid rgb(112, 108, 108); */
@@ -43,4 +110,29 @@ form{
 @font-face {
     font-family: "libre-bodoni.regular";
     src: url("libre-bodoni.regular.ttf");
+}
+
+.modal{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 10px 12px 12px 10px rgba(0, 0, 0, 0.2), 10px 10px 10px 10px rgba(0, 0, 0, 0.19)
+    
+}
+
+.user-detail{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 800px;
+    height: 800px;
+    margin: 20px;
+}
+
+.user-detail img {
+    align-self: center;
+    /* margin: 10px; */
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
 }

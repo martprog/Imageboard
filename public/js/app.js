@@ -1,4 +1,38 @@
 import * as Vue from "./vue.js";
+// import  userDetail from "../../components/UserDetail.mjs";
+
+const userDetail = {
+    props: ["id"],
+    data() {
+        return { user: {} };
+    },
+    template: `
+        <div class="user-detail">
+            <img :src= user.url>
+            <h2>{{ user.title }}</h2>
+            <p>{{ user.description }}</p>
+            <p>Updated by {{ user.username }} {{ user.created_at }}</p>
+            <button @click="onCloseClick">Close</button>
+        </div>
+        `,
+    methods: {
+        onCloseClick() {
+            this.$emit("close");
+        },
+    },
+
+    mounted() {
+        const url = "/image/" + this.id;
+
+        fetch(url)
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                this.user = res;
+            })
+            .catch((e) => console.log("oops,", e));
+    },
+};
 
 const app = Vue.createApp({
     data() {
@@ -8,7 +42,11 @@ const app = Vue.createApp({
             imageFile: null,
             description: "",
             username: "",
+            selectedUser: null,
         };
+    },
+    components: {
+        "user-detail": userDetail,
     },
     mounted() {
         fetch("/images.json")
@@ -20,7 +58,6 @@ const app = Vue.createApp({
     methods: {
         handleSubmit(e) {
             e.preventDefault();
-            // console.log(this.title, this.imageFile);
 
             const formData = new FormData();
 
@@ -38,10 +75,14 @@ const app = Vue.createApp({
                     this.images.unshift(res[0]);
                 });
         },
+        onClose() {
+            this.selectedUser = null;
+        },
         handleFileChange(e) {
-            console.log("change file:", e.target);
-
             this.imageFile = e.target.files[0];
+        },
+        selectedPic(usr) {
+            this.selectedUser = usr;
         },
     },
 });

@@ -1,4 +1,4 @@
-const { selectData, uploadImg } = require("./sql/db");
+const { selectData, uploadImg, getImageById } = require("./sql/db");
 const express = require("express");
 const app = express();
 const multer = require("multer");
@@ -47,6 +47,19 @@ app.post("/images.json", uploader.single("image"), s3.upload, (req, res) => {
 app.get("/images.json", (req, res) => {
     selectData().then((results) => {
         res.json(results);
+    });
+});
+
+app.get('/image/:image_id', (req, res) => {
+    const { image_id } = req.params;
+    getImageById(image_id).then((image) => {
+        if (!image) {
+            res.status(404).json({
+                message: "Image not found",
+            });
+            return;
+        }
+        res.json(image);
     });
 });
 
