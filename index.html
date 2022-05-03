@@ -34,10 +34,12 @@
             <div @click="selectedPic(item.id)" class="imgs"  v-for="item in images">
                 <img :src="item.url">{{item.title}}
             </div>
-            <div class="modal">
-                <user-detail class="modal-image" v-if="selectedUser"  @close="onClose" :id="selectedUser"></user-detail>
+            <div :class="{ modal: modal }">
+                <user-detail class="modal-image" v-if="selectedUser"  @close="onClose" :id="selectedUser">
+                </user-detail>
             </div>
         </div>    
+        <button :class="{ invisible: !seen }" @click="moreImgs" class="more-button" >more</button>
     </main>
     <script src="/js/app.js" type="module" crossorigin="use-credentials"></script>
 </body>

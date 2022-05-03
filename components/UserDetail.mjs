@@ -32,4 +32,4 @@ const userDetail = {
     },
 };
 
-export   { userDetail };
+export default  userDetail ;

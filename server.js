@@ -1,4 +1,11 @@
-const { selectData, uploadImg, getImageById } = require("./sql/db");
+const {
+    selectData,
+    uploadImg,
+    getImageById,
+    getMoreResults,
+    addNewComment,
+    getAllComments,
+} = require("./sql/db");
 const express = require("express");
 const app = express();
 const multer = require("multer");
@@ -50,7 +57,7 @@ app.get("/images.json", (req, res) => {
     });
 });
 
-app.get('/image/:image_id', (req, res) => {
+app.get("/image/:image_id", (req, res) => {
     const { image_id } = req.params;
     getImageById(image_id).then((image) => {
         if (!image) {
@@ -61,6 +68,31 @@ app.get('/image/:image_id', (req, res) => {
         }
         res.json(image);
     });
+});
+
+app.get("/more/:image_id", (req, res) => {
+    const { image_id } = req.params;
+    getMoreResults(image_id).then((results) => {
+        res.json(results);
+    });
+});
+
+app.get("/comments/:image_id", (req, res) => {
+    const { image_id } = req.params;
+
+    getAllComments(image_id).then((results) => {
+        res.json(results);
+    });
+});
+
+app.post("/comment", (req, res) => {
+    const { username, text, image_id } = req.body;
+
+    addNewComment(text, username, image_id)
+        .then((results) => {
+            res.json(results);
+        })
+        .catch((e) => console.log("error while message: ", e));
 });
 
 app.get("*", (req, res) => {

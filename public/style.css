@@ -5,79 +5,81 @@
 body {
     background-color: rgba(0, 0, 0, 0.07);
     font-family: "Martel", serif;
+    height: 1000px;
 }
 
-
 .container {
+    /* height: 600px; */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    
     /* grid-template-rows: 1fr 2fr 1fr; */
     gap: 30px 20px;
     /* display: flex;
     gap: 5%; */
 }
 
-.mini-container{
+.mini-container {
     display: flex;
-    width: 25%;
-    flex-direction: column;
+    width: 100%;
+    /* flex-direction: column; */
     background-color: white;
-    transform: translateX(280%);
+    /* transform: translateX(280%); */
     opacity: 0.7;
     padding: 12px;
     border-radius: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-h1{
+h1 {
     color: rgba(0, 0, 0, 0.8);
     font-weight: bold;
 }
 
-button{
+button {
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 25px;
     background-color: red;
     color: white;
     font-size: 22px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     cursor: pointer;
 }
 
-input{
+input {
     border: none;
     outline: none;
     /* border-bottom: 2px solid red; */
     margin: 8px;
-    transition: transform 250ms linear;  
+    transition: transform 250ms linear;
     position: relative;
     width: 100%;
 }
 
 .input-group {
-  position: relative;
+    position: relative;
+    margin-right: 10px;
 }
 
 .effect-1 {
-  border-bottom: 1px solid #ccc;
-  padding-left: 0;
+    border-bottom: 1px solid #ccc;
+    padding-left: 0;
+    width: 180px;
 }
 
 .effect-1 + span {
-  position: absolute;
-  bottom: 7px;
-  left: 7px;
-  /* width: 0%; */
-  height: 2px;
-  background-color: red;
-  transition: 0.5s ;
-  transform: scaleX(0);
+    position: absolute;
+    bottom: 17px;
+    left: 4px;
+    /* width: 0%; */
+    height: 2px;
+    background-color: red;
+    transition: 0.5s;
+    transform: scaleX(0);
 }
 
 .effect-1:focus + span {
-  width: 100%;
-  transform: scaleX(1);
+    width: 100%;
+    transform: scaleX(1);
 }
 
 /* input:focus{
@@ -85,9 +87,8 @@ input{
     border-bottom: 2px solid red;    
 } */
 
-
-#file-choose{
-    border:  none
+#file-choose {
+    border: none;
 }
 
 .imgs {
@@ -98,6 +99,7 @@ input{
     border-radius: 12px;
     text-align: center;
     background-color: white;
+    cursor: pointer;
 }
 
 .imgs img {
@@ -112,14 +114,30 @@ input{
     src: url("libre-bodoni.regular.ttf");
 }
 
-.modal{
-    position: absolute;
+.modal {
+    /* height: 100%;
+    width: 100%; */
+    /* flex-direction: column;
+    flex-wrap: wrap; */
+    position: fixed;
+    left: 0;
+    top: 0;
+    /* width: 90vh */
+    height: 100vh;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    z-index: 10;
+    margin-left: 50px;
+    margin-right: 50px;
     background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 10px 12px 12px 10px rgba(0, 0, 0, 0.2), 10px 10px 10px 10px rgba(0, 0, 0, 0.19)
-    
+    box-shadow: 10px 12px 12px 10px rgba(0, 0, 0, 0.2),
+        10px 10px 10px 10px rgba(0, 0, 0, 0.19);
 }
 
-.user-detail{
+.user-detail {
     color: white;
     display: flex;
     flex-direction: column;
@@ -131,8 +149,37 @@ input{
 
 .user-detail img {
     align-self: center;
-    /* margin: 10px; */
+    margin-top: 100px;
     width: 600px;
     height: 400px;
     object-fit: cover;
+}
+
+.comments {
+    background-color: rgb(133, 111, 111);
+    margin: 10px;
+    padding: 12px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+#submit-comment {
+    width: 100px;
+    margin: 10px;
+    background-color: gray;
+}
+
+.more-button {
+    /* transform: translateX(500%); */
+}
+
+.comment-container {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+.invisible {
+    visibility: hidden;
 }
