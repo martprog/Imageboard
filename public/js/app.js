@@ -33,6 +33,11 @@ const commentsComp = {
             })
             .catch((e) => console.log("there was an: ", e));
     },
+    watch: {
+        id: function (val) {
+            this.fetchNew(val);
+        },
+    },
     methods: {
         addComment(e) {
             e.preventDefault();
@@ -50,10 +55,18 @@ const commentsComp = {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log(res);
-                    this.comments.unshift(res[0]);
+                    this.comments.unshift(res);
                 })
                 .catch((e) => console.log("error en post: ", e));
+        },
+        fetchNew(val) {
+            const url = "/comments/" + val;
+            fetch(url)
+                .then((res) => res.json())
+                .then((res) => {
+                    this.comments = res;
+                })
+                .catch((e) => console.log("oops,", e));
         },
     },
 };
@@ -61,38 +74,104 @@ const commentsComp = {
 const userDetail = {
     props: ["id"],
     data() {
-        return { user: {} };
+        return { user: {}, isNext: false, isPrevious: false };
     },
     template: `
-        <div class="user-detail">
-            <img :src= user.url>
-            
-           
+    
+    <div v-if="id" class="user-detail">
+    <div class="multicont">
+            <div :class="{ isPrevious: isPrevious }" class='prev-next' @click="previousClick" > 
+                <p>&lt</p>
+            </div>
+            <div class="minicont">
+                <img :src= user.url>
                 <h2>{{ user.title }}</h2>
                 <p>{{ user.description }}</p>
                 <p>Updated by {{ user.username }} {{ user.created_at }}</p>
-           
-            <comments-comp v-if="id" :id="id" ></comments-comp>
+            </div>
+            <comments-comp  :id="id" ></comments-comp>
+        
+            <div :class="{ isNext: isNext }" class='prev-next' @click="nextClick"> 
+            <p>&gt</p>
+            </div>
+        </div>
+
             
-            <button @click="onCloseClick">Close</button>
+            <button class="close-btn" @click="onCloseClick">Close</button>
         </div>
         `,
     methods: {
         onCloseClick() {
             this.$emit("close");
         },
+        previousClick() {
+            const prev = this.user.previous;
+
+            this.$emit("upprev", prev);
+        },
+        nextClick() {
+            const next = this.user.next;
+            this.$emit("upnext", next);
+        },
+        fetchNew(val) {
+            const url = "/image/" + val;
+            fetch(url)
+                .then((res) => res.json())
+                .then((res) => {
+                    this.user = res;
+
+                    if (this.user.previous == null) {
+                        this.isPrevious = true;
+                    } else {
+                        this.isPrevious = false;
+                    }
+
+                    if (this.user.next == null) {
+                        this.isNext = true;
+                    } else {
+                        this.isNext = false;
+                    }
+                })
+                .catch((e) => console.log("oops,", e));
+        },
+        // deleteSelect(e) {
+        //     e.preventDefault()
+            
+        //     fetch("/delete", {
+        //         method: "POST",
+        //         body: JSON.stringify({
+        //             image_id: this.id,
+        //         }),
+        //     })
+        //         .then((res) => res.json())
+        //         .then((res) => {
+        //             console.log(res);
+        //         })
+        //         .catch((e) => console.log("error en post: ", e));
+        // },
     },
     components: {
         "comments-comp": commentsComp,
     },
-
+    watch: {
+        id: function (val) {
+            this.fetchNew(val);
+        },
+    },
     mounted() {
         const url = "/image/" + this.id;
-        // console.log('id of selected: ', this.id);
         fetch(url)
             .then((res) => res.json())
             .then((res) => {
+                if (res.length > 1) {
+                    this.onCloseClick();
+                }
                 this.user = res;
+                if (this.user.previous == null) {
+                    this.isPrevious = true;
+                } else {
+                    this.isPrevious = false;
+                }
             })
             .catch((e) => console.log("oops,", e));
     },
@@ -106,15 +185,30 @@ const app = Vue.createApp({
             imageFile: null,
             description: "",
             username: "",
-            selectedUser: null,
+            selectedUser: parseInt(location.pathname.slice(1)),
             seen: true,
-            modal: false
+            modal: false,
         };
     },
     components: {
         "user-detail": userDetail,
     },
     mounted() {
+        if (isNaN(this.selectedUser)) {
+            this.modal = false;
+        } else {
+            this.modal = true;
+        }
+
+        window.addEventListener("popstate", () => {
+            this.selectedUser = parseInt(location.pathname.slice(1));
+            if (isNaN(this.selectedUser)) {
+                this.modal = false;
+            } else {
+                this.modal = true;
+            }
+        });
+
         fetch("/images.json")
             .then((res) => res.json())
             .then((res) => {
@@ -143,22 +237,23 @@ const app = Vue.createApp({
         },
         onClose() {
             this.selectedUser = null;
-            this.modal= false
+            history.pushState({}, "", "/");
+            this.modal = false;
         },
         handleFileChange(e) {
             this.imageFile = e.target.files[0];
         },
         selectedPic(usr) {
             this.selectedUser = usr;
-            this.modal= true
+            history.pushState({}, "", `/${this.selectedUser}`);
+            this.modal = true;
         },
         moreImgs() {
-            // console.log('stuf', this.images[this.images.length-1].id);
+           
             const url = "/more/" + this.images[this.images.length - 1].id;
             fetch(url)
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log(res);
                     if (res.length <= 1) {
                         this.seen = false;
                     }
@@ -166,6 +261,18 @@ const app = Vue.createApp({
                         this.images.push(element);
                     });
                 });
+        },
+        previous(results) {
+            // console.log('previous botton', results);
+            this.selectedUser = results;
+            history.pushState({}, "", `/${this.selectedUser}`);
+            this.modal = true;
+        },
+        next(results) {
+            // console.log('previous botton', results);
+            this.selectedUser = results;
+            history.pushState({}, "", `/${this.selectedUser}`);
+            this.modal = true;
         },
     },
 });

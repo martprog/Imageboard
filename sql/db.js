@@ -30,9 +30,14 @@ const uploadImg = (url, username, title, description) => {
     });
 };
 
+// SELECT * FROM images
 const getImageById = (image_id) => {
     const query = `
-            SELECT * FROM images
+            
+              SELECT id, url, username, title, description, created_at,
+            (SELECT id FROM images WHERE id<$1 ORDER BY id DESC LIMIT 1) AS "next",
+            (SELECT id FROM images WHERE id>$1 ORDER BY id ASC LIMIT 1) AS "previous"
+                FROM images
             WHERE id=$1
         `;
 
@@ -59,16 +64,15 @@ const getMoreResults = (smallest_id) => {
     });
 };
 
-const addNewComment = ( text, username, image_id) => {
+const addNewComment = (text, username, image_id) => {
     const query = `
         INSERT INTO comments (text, username, image_id)
         VALUES ($1, $2, $3)
         RETURNING *
     `;
 
-    const params = [ text, username, image_id];
+    const params = [text, username, image_id];
     return db.query(query, params).then((results) => {
-        
         return results.rows[0];
     });
 };
@@ -84,6 +88,18 @@ const getAllComments = (id) => {
     });
 };
 
+const deleteImg = (id) => {
+    const query = `
+        DELETE FROM images where id=$1;
+        DELETE FROM comments where id=$1
+        RETURNING *
+    `;
+
+    return db.query(query, [id]).then((results) => {
+        return results.rows[0];
+    });
+};
+
 module.exports = {
     selectData,
     uploadImg,
@@ -91,4 +107,5 @@ module.exports = {
     getMoreResults,
     addNewComment,
     getAllComments,
+    deleteImg
 };

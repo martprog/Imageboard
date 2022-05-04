@@ -19,20 +19,39 @@ module.exports.upload = (req, res, next) => {
     }
 
     const { filename, mimetype, size, path } = req.file;
-    const promise = s3.putObject({
-        Bucket: "spicedling",
-        ACL: "public-read",
-        Key: filename,
-        Body: fs.createReadStream(path),
-        ContentType: mimetype,
-        ContentLength: size,
-    }).promise();
+    const promise = s3
+        .putObject({
+            Bucket: "spicedling",
+            ACL: "public-read",
+            Key: filename,
+            Body: fs.createReadStream(path),
+            ContentType: mimetype,
+            ContentLength: size,
+        })
+        .promise();
 
     promise
         .then(() => {
             console.log("image is in the cloud!");
             next();
             fs.unlink(path, () => {});
+        })
+        .catch((e) => console.log("unable to delete file: ", e));
+};
+
+module.exports.delete = (req, res, next) => {
+    const { id } = req.body;
+    const deletePromise = s3
+        .deleteObject({
+            Bucket: "spicedling",
+            Key: filename,
+        })
+        .promise();
+
+    deletePromise
+        .then(() => {
+            console.log("image deleted!");
+            next();
         })
         .catch((e) => console.log("unable to delete file: ", e));
 };

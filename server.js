@@ -5,6 +5,7 @@ const {
     getMoreResults,
     addNewComment,
     getAllComments,
+    deleteImg,
 } = require("./sql/db");
 const express = require("express");
 const app = express();
@@ -60,14 +61,19 @@ app.get("/images.json", (req, res) => {
 app.get("/image/:image_id", (req, res) => {
     const { image_id } = req.params;
     getImageById(image_id).then((image) => {
-        if (!image) {
-            res.status(404).json({
-                message: "Image not found",
-            });
+        
+        if (image == undefined) {
+            res.redirect("/images.json");
             return;
         }
         res.json(image);
     });
+});
+
+app.post("/delete", (req, res) => {
+    // deleteImg(image_id).then(() => {
+    //     res.redirect("images.json");
+    // });
 });
 
 app.get("/more/:image_id", (req, res) => {
