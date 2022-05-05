@@ -140,7 +140,6 @@ input {
     z-index: 10;
     margin-left: 50px;
     margin-right: 50px;
-    
     background-color: rgba(0, 0, 0, 0.8);
     box-shadow: 10px 12px 12px 10px rgba(0, 0, 0, 0.2),
         10px 10px 10px 10px rgba(0, 0, 0, 0.19);

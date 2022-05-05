@@ -233,6 +233,10 @@ const app = Vue.createApp({
                 .then((res) => res.json())
                 .then((res) => {
                     this.images.unshift(res[0]);
+                    this.title= "",
+                    this.imageFile = null
+                    this.description= ""
+                    this.username= ""
                 });
         },
         onClose() {
