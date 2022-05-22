@@ -6,13 +6,13 @@ Instagram-inspired, single-page application website focused on fotos of deliciou
 
 ## Worktools
 
-<span><img src="https://img.shields.io/badge/JavaScript-blue?style=flat-square&logo=javascript&logoColor=white"></span>
+<span><img src="https://img.shields.io/badge/JavaScript-yellow?style=flat-square&logo=javascript&logoColor=white"></span>
 <span><img src="https://img.shields.io/badge/Vue.js-black?style=flat-square&logo=vuedotjs"></span>
 <span><img src="https://img.shields.io/badge/Express-lightgrey?style=flat-square&logo=express"></span>
 <span><img src="https://img.shields.io/badge/Node.js-green?style=flat-square&logo=nodedotjs"></span>
 <span><img src="https://img.shields.io/badge/PostgreSQL-9cf?style=flat-square&logo=postgresql"></span>
 <span><img src="https://img.shields.io/badge/S3-important?style=flat-square&logo=amazons3&logoColor=white"></span>
-## Developement
+## Development
 
 To fork and work with this project follow these steps:
  
