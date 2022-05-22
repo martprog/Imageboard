@@ -1,4 +1,3 @@
-# Imageboard
 
 # ImageBoard
 ## About
@@ -17,14 +16,14 @@ Instagram-inspired, single-page application website focused on fotos of deliciou
 
 To fork and work with this project follow these steps:
  
-# Clone the repository
-git clone 
+**Clone the repository:**
+<br>git clone https://github.com/martprog/Imageboard.git
 
-# Go inside the directory
-cd imageboard
+**Go inside the directory:**
+<br>cd imageboard
 
-# Install dependencies
-npm install
+**Install dependencies:**
+<br>npm install
 
-# Start development server
-npm start
+**Start development server:**
+<br>npm start
