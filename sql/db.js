@@ -11,7 +11,7 @@ const selectData = () => {
     `;
 
     return db.query(query).then((results) => {
-        // console.log(results.rows);
+        
         return results.rows;
     });
 };
@@ -59,7 +59,7 @@ const getMoreResults = (smallest_id) => {
     `;
 
     return db.query(query, [smallest_id]).then((results) => {
-        // console.log('results: ', results.rows);
+        
         return results.rows;
     });
 };

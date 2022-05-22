@@ -11,7 +11,7 @@ const commentsComp = {
             <input  v-model="username" name="username" placeholder="username" />
             <button id="submit-comment" @click="addComment">submit</button>
         </form>
-        <div class="comments" v-for="item in comments">{{item.text}} | {{item.username}}</div>
+        <div class="comments" v-for="item in comments"> <strong>{{item.username}}</strong>&nbsp &nbsp <font size=2>{{item.text}}</font></div>
         </div>
     `,
     data() {
@@ -26,9 +26,6 @@ const commentsComp = {
         fetch(url)
             .then((res) => res.json())
             .then((res) => {
-                // res.forEach((item) => {
-                //     this.comments.push(item);
-                // });
                 this.comments = res;
             })
             .catch((e) => console.log("there was an: ", e));
@@ -58,6 +55,8 @@ const commentsComp = {
                     this.comments.unshift(res);
                 })
                 .catch((e) => console.log("error en post: ", e));
+            this.username = "";
+            this.text = "";
         },
         fetchNew(val) {
             const url = "/comments/" + val;
@@ -94,9 +93,7 @@ const userDetail = {
             <div :class="{ isNext: isNext }" class='prev-next' @click="nextClick"> 
             <p>&gt</p>
             </div>
-        </div>
-
-            
+        </div> 
             <button class="close-btn" @click="onCloseClick">Close</button>
         </div>
         `,
@@ -134,21 +131,6 @@ const userDetail = {
                 })
                 .catch((e) => console.log("oops,", e));
         },
-        // deleteSelect(e) {
-        //     e.preventDefault()
-            
-        //     fetch("/delete", {
-        //         method: "POST",
-        //         body: JSON.stringify({
-        //             image_id: this.id,
-        //         }),
-        //     })
-        //         .then((res) => res.json())
-        //         .then((res) => {
-        //             console.log(res);
-        //         })
-        //         .catch((e) => console.log("error en post: ", e));
-        // },
     },
     components: {
         "comments-comp": commentsComp,
@@ -233,10 +215,9 @@ const app = Vue.createApp({
                 .then((res) => res.json())
                 .then((res) => {
                     this.images.unshift(res[0]);
-                    this.title= "",
-                    this.imageFile = null
-                    this.description= ""
-                    this.username= ""
+                    (this.title = ""), (this.imageFile = null);
+                    this.description = "";
+                    this.username = "";
                 });
         },
         onClose() {
@@ -253,7 +234,6 @@ const app = Vue.createApp({
             this.modal = true;
         },
         moreImgs() {
-           
             const url = "/more/" + this.images[this.images.length - 1].id;
             fetch(url)
                 .then((res) => res.json())
@@ -267,13 +247,11 @@ const app = Vue.createApp({
                 });
         },
         previous(results) {
-            // console.log('previous botton', results);
             this.selectedUser = results;
             history.pushState({}, "", `/${this.selectedUser}`);
             this.modal = true;
         },
         next(results) {
-            // console.log('previous botton', results);
             this.selectedUser = results;
             history.pushState({}, "", `/${this.selectedUser}`);
             this.modal = true;

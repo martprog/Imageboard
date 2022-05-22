@@ -14,7 +14,7 @@
                     <input class="effect-1" v-model="title" name="title" placeholder="title" />
                     <span class="underline"></span>
                 </div>
-            <!-- <input-field placeholder="title" @change="onTitleChange"></input-field> -->
+            
 
                 <div class="input-group">
                     <input class="effect-1" v-model="username" name="username" placeholder="username" />
@@ -29,7 +29,7 @@
             </div>
 
         </form>
-        <h1>Imageboard</h3>
+        <h1>PeanutButterest</h3>
         <div class="container">
             <div @click="selectedPic(item.id)" class="imgs"  v-for="item in images">
                 <img :src="item.url">{{item.title}}
